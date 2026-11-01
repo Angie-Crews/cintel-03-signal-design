@@ -13,14 +13,15 @@
 
 ## Project Overview
 
-Author: Denise Case
+Author: Angie Crews
 
-Date: 2026 October
+Date: 2026 November
 
-This project introduces signal design for continuous intelligence.
+This project explores signal design for continuous intelligence
+using Missouri State Expenditures travel data.
 
-The goal is to derive useful indicators from raw measurements
-so that system behavior can be interpreted more clearly.
+The goal is to create useful signals that help monitor travel spending
+and identify changes or unusual spending patterns.
 
 The project is configured in
 [pyproject.toml](pyproject.toml).
