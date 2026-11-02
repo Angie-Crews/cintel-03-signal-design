@@ -367,3 +367,5 @@ docs/assets/data/view-analytics.json
 docs/assets/data/guide-context.json
 # marimo WASM export; built at deploy time, not committed
 docs/app/
+data/2026_State_Expenditures_20261029.csv
+artifacts/missouri_travel_signals.csv

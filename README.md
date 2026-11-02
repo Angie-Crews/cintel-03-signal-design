@@ -1,8 +1,8 @@
 # cintel-03-signal-design
 
 [![Python 3.14](https://img.shields.io/badge/python-3.14%2B-blue?logo=python)](pyproject.toml)
-[![CI](https://github.com/denisecase/cintel-03-signal-design/actions/workflows/ci-python-zensical.yml/badge.svg)](https://github.com/denisecase/cintel-03-signal-design/actions/workflows/ci-python-zensical.yml)
-[![Documentation](https://img.shields.io/badge/docs-site-blue?logo=github)](https://denisecase.github.io/cintel-03-signal-design/)
+[![CI](https://github.com/Angie-Crews/cintel-03-signal-design/actions/workflows/ci-python-zensical.yml/badge.svg)](https://github.com/Angie-Crews/cintel-03-signal-design/actions/workflows/ci-python-zensical.yml)
+[![Documentation](https://img.shields.io/badge/docs-site-blue?logo=github)](https://angie-crews.github.io/cintel-03-signal-design/)
 
 [![uv managed](https://img.shields.io/badge/uv-managed-DE5FE9)](https://docs.astral.sh/uv/)
 [![ty type checked](https://img.shields.io/badge/ty-type_checked-2F80ED)](https://docs.astral.sh/ty/)
@@ -28,30 +28,43 @@ The project is configured in
 
 ## Data
 
-The example uses system metrics from `data/`.
+The custom project uses the 2026 Missouri State Expenditures dataset
+from the Missouri Data Portal.
 
-Each observation includes:
+The original dataset contains 102,540 expenditure records.
+The analysis filters the data to the `TRAVEL` category,
+resulting in 37,402 travel expenditure records.
 
-- `requests` - number of requests handled.
-- `errors` - number of failed requests.
-- `total_latency_ms` - total response time in milliseconds.
+Important fields include:
+
+- `Agency Name` - state agency responsible for the expenditure.
+- `Category Description` - expenditure category.
+- `Detail Description` - additional information about the expense.
+- `Vendor Name` - vendor or payee.
+- `Payments Total` - original payment amount.
+- `payment_amount` - numeric payment amount used for calculations.
+
+The custom dataset is stored in
+`data/2026_State_Expenditures_20261029.csv`.
 
 ## Approach
 
-The pipeline uses Polars to calculate derived signals:
+The custom pipeline uses Polars to create signals that help
+monitor and compare Missouri travel spending.
 
-- **Error rate** - errors relative to requests.
-- **Average latency** - average response time per request.
-- **Throughput** - request volume represented in the example.
+The project creates the following signals:
 
-Explore these project components:
+- **Payment amount** - converts the original payment value to a numeric value.
+- **Agency average travel spending** - calculates the average travel payment for each agency.
+- **Relative to agency average** - compares each individual payment with the average payment for that agency.
+- **Agency summary** - calculates total travel spending, average travel payment, and number of travel payments by agency.
 
-- [pyproject.toml](pyproject.toml) - project configuration and dependencies.
-- [src/cintel/signal_design.py](src/cintel/signal_design.py) - signal calculations.
-- [data/](data/) - input measurements.
-- [artifacts/](artifacts/) - generated signals.
-- [tests/](tests/) - automated tests.
-- [.github/workflows/](.github/workflows/) - automated checks and documentation deployment.
+Explore these custom project components:
+
+- [src/cintel/travel_signal_design.py](src/cintel/travel_signal_design.py) - custom travel signal pipeline.
+- [data/](data/) - Missouri expenditure data.
+- [artifacts/](artifacts/) - generated signal results.
+- [docs/images/](docs/images/) - generated visualization.
 - [docs/](docs/) - project documentation.
 
 ## Run the Project
@@ -59,10 +72,11 @@ Explore these project components:
 Follow the [Professional Python Workflow Guide](https://denisecase.github.io/pro-analytics-02/)
 to set up your machine and project environment.
 
-From a VS Code terminal in the project root:
+From a VS Code terminal in the project root, run the custom
+Missouri travel signal pipeline:
 
 ```shell
-uv run python -m cintel.signal_design
+uv run python -m cintel.travel_signal_design
 ```
 
 ## Run the Reactive App
@@ -76,23 +90,24 @@ uv run marimo run  src/cintel/app.py
 
 ## Results
 
-The pipeline adds calculated signals to the input measurements
-and writes `artifacts/signals.csv`.
-Review the generated signals and consider what they reveal
-that the raw measurements alone do not.
+The custom pipeline processed 37,402 Missouri travel expenditure records
+and created signal values for each record.
 
-Successful execution produces a terminal message:
+The results are saved to:
 
-```shell
-========================
-Pipeline executed successfully!
-========================
-```
+- `artifacts/missouri_travel_signals.csv` - travel records with the new signal columns.
+- `docs/images/travel_spending_by_agency.png` - visualization of the top 10 agencies by total travel spending.
 
-A `project.log` file is created in the project root.
+The analysis showed that Social Services had the highest total travel
+spending at approximately $4.85 million, followed closely by Judiciary
+at approximately $4.82 million.
 
-This confirms that the Python pipeline executes
-and the logging system works.
+The `relative_to_agency_avg` signal also helps identify individual
+payments that are unusually large compared with the average travel
+payment for the same agency.
+
+More detailed results and interpretation are available in the
+[project documentation](docs/index.md).
 
 ## Verification
 
@@ -104,21 +119,22 @@ uv run pytest
 
 ## Project Documentation
 
-The [hosted documentation site](https://denisecase.github.io/cintel-03-signal-design/)
+The [hosted documentation site](https://angie-crews.github.io/cintel-03-signal-design/)
 is published using Zensical and GitHub Pages.
 
-The documentation site is used to present the project report,
-covering such sections as data, methods, results, visualizations,
-interpretation, and conclusions.
+The documentation presents the Missouri travel expenditure signal project,
+including the data, methods, results, visualization, interpretation,
+limitations, and next steps.
 
 ## CI/CD and GitHub Actions
 
 This project includes continuous integration and continuous deployment (CI/CD)
-to check project files and publish the docs.
+to check project files and publish the documentation.
+
 GitHub Actions include:
 
-- [CI: Python and Documentation Checks](https://github.com/denisecase/cintel-03-signal-design/actions/workflows/ci-python-zensical.yml)
-- [CD: Documentation Deployment](https://github.com/denisecase/cintel-03-signal-design/actions/workflows/deploy-zensical.yml)
+- [CI: Python and Documentation Checks](https://github.com/Angie-Crews/cintel-03-signal-design/actions/workflows/ci-python-zensical.yml)
+- [CD: Documentation Deployment](https://github.com/Angie-Crews/cintel-03-signal-design/actions/workflows/deploy-zensical.yml)
 
 ## Developer Reference
 
@@ -203,7 +219,7 @@ testing, documentation, and code quality.
 
 ## Links
 
-- [Hosted Documentation](https://denisecase.github.io/cintel-03-signal-design/)
+- [Hosted Documentation](https://angie-crews.github.io/cintel-03-signal-design/)
 - [Professional Python Workflow Guide](https://denisecase.github.io/pro-analytics-02/)
 - [Citation](CITATION.cff)
 - [License](LICENSE)
