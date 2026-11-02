@@ -51,6 +51,10 @@ def design_signals(df: pl.DataFrame) -> pl.DataFrame:
             .otherwise(0.0)
             .alias("error_rate"),
             pl.when(is_requests_positive)
+            .then((pl.col("errors") / pl.col("requests")) * 100)
+            .otherwise(0.0)
+            .alias("error_rate_pct"),
+            pl.when(is_requests_positive)
             .then(pl.col("total_latency_ms") / pl.col("requests"))
             .otherwise(0.0)
             .alias("avg_latency_ms"),
@@ -62,6 +66,7 @@ def design_signals(df: pl.DataFrame) -> pl.DataFrame:
             "errors",
             "total_latency_ms",
             "error_rate",
+            "error_rate_pct",
             "avg_latency_ms",
             "throughput",
         ]

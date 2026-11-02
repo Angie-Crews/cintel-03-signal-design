@@ -64,6 +64,22 @@ alongside the derived monitoring signals.
 
 [View Signal Results](https://github.com/denisecase/cintel-03-signal-design/blob/main/artifacts/signals.csv)
 
+## Technical Experiment
+
+I added an `error_rate_pct` signal to display the error rate as a percentage
+instead of only as a decimal.
+
+I chose this modification because percentages are easier to read and interpret.
+
+I predicted that an error rate of `0.025` would be displayed as `2.5%`.
+
+After running the pipeline, the new `error_rate_pct` column was created
+successfully. For example, an `error_rate` of `0.025` produced an
+`error_rate_pct` of `2.5`.
+
+This experiment showed that a derived signal can present the same data
+in a format that is easier to understand and interpret.
+
 ## Interpretation
 
 Error rate provides a useful indicator of reliability,
